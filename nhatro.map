@@ -1,0 +1,273 @@
+MAP
+EXTENT 581902 2320049 584547 2321560 
+UNITS meters
+SIZE 600 500
+SHAPEPATH "../../../data"
+SYMBOLSET "../common/symbols/symbols-pmapper.sym"   
+FONTSET "../common/fonts/msfontset.txt" 
+RESOLUTION 96
+IMAGETYPE png
+INTERLACE OFF
+PROJECTION
+	"proj=tmerc"
+	"lat_0=0"
+	"lon_0=105.00"
+	"k=0.9996"
+	"x_0=500000"
+	"y_0=0"
+	"ellps=WGS84"
+	"units=m"
+	"no_defs"
+END
+
+# Start of web interface definition
+WEB
+  TEMPLATE "map.html"
+  IMAGEPATH "/ms4w/tmp/ms_tmp/"
+  IMAGEURL "/ms_tmp/"
+  METADATA
+  END  # Metadata
+END  # Web
+
+# Start of Reference map definition
+REFERENCE
+  EXTENT 581902 2320049 584547 2321560
+  IMAGE "../../images/reference.png"
+  SIZE 250 143
+  COLOR -1 -1 -1
+  OUTLINECOLOR 255 0 0
+END  # Reference
+
+# Start of legend object
+LEGEND
+	STATUS OFF
+	IMAGECOLOR 255 255 255
+	POSITION ll
+	KEYSIZE 18 12
+	KEYSPACING 10 5 
+	TEMPLATE "void"
+	LABEL
+		TYPE TRUETYPE
+		FONT "FreeSans"
+		SIZE small
+		POSITION AUTO
+		COLOR 0 0 89
+		OUTLINECOLOR 255 255 255
+		ANTIALIAS TRUE
+	END
+END
+
+# Start of ScaleBar definition
+SCALEBAR
+  STATUS off
+  TRANSPARENT off
+  INTERVALS 4
+  SIZE 200 3
+  UNITS kilometers
+  COLOR 250 250 250
+  OUTLINECOLOR 0 0 0
+  BACKGROUNDCOLOR 100 100 100
+  STYLE 0
+  POSTLABELCACHE true
+  LABEL
+    COLOR 0 0 90
+    SIZE small
+  END  # Label
+END  # Reference
+
+
+# SYMBOLS USED IN PMAPPER
+# - 'circle' always necessary (used e.g. for highlight)
+# - 'square' used in current map file
+# Symbols can also be defined via tag SYMBOLSET (see above)
+Symbol
+  Name 'circle'
+  Type ELLIPSE
+  Filled TRUE
+  Points
+    1 1
+  END
+END 
+
+Symbol
+  Name 'square'
+  Type VECTOR
+  Filled TRUE
+  Points
+    0 1
+    0 0
+    1 0
+    1 1
+    0 1
+  END
+END
+#================== START OF LAYER SECTION =====================#
+#============= ADD YOUR LAYER DEFINITION HERE ==================#
+LAYER #nền
+  NAME "nen"   		# name of layer
+  TYPE polygon			# type of features
+  CONNECTIONTYPE postgis   	# connection parameters
+  CONNECTION "user=postgres password=123456 host=localhost dbname=nhatro"
+   DATA "the_geom from (SELECT gid, distname, area, the_geom from public.nen) as nen_data using unique gid"
+  TRANSPARENCY 95
+  TEMPLATE void
+  LABELITEM gid  		# data field used for labeling
+  METADATA 
+     "LAYER_ENCODING" "UTF-8"	# use unicode character set
+     "DESCRIPTION" "nen data"
+     "RESULT_FIELDS" "gid, distname, area"  
+     "RESULT_HEADERS" "gid, distname, area"
+     "ows_title"      "nen data"
+  END 			# End of metadata description
+ CLASS   			#define class for layer display. Here we have only one class
+   Name 'Nen'
+   STYLE
+	COLOR 225 225 225	# fill color in format of Red Green Blue
+	OUTLINECOLOR 225 225 225	# outline color
+	WIDTH 0.3
+   END
+   LABEL			# label definition
+      POSITION Auto
+      COLOR 0 0 0 
+	  OUTLINECOLOR 220 255 255
+	  OUTLINEWIDTH 1
+	  MINDISTANCE 10
+	  MAXSCALEDENOM 1000  	#do not display label at scale smaller than 1:1000
+      TYPE truetype
+      ENCODING "UTF-8"
+      FONT Arial			# font set used for labeling
+      SIZE 6
+    END #Label  
+  END  # Class
+END  # Layer 
+
+LAYER #nhà
+  NAME "nhatro"   		# name of layer
+  TYPE polygon			# type of features
+  CONNECTIONTYPE postgis   	# connection parameters
+  CONNECTION "user=postgres password=123456 host=localhost dbname=nhatro"
+   DATA "the_geom from (SELECT gid, objectid, name, floor, nha, shape_area, the_geom from public.nha) as nha_data using unique gid"
+  TRANSPARENCY 95
+  TEMPLATE void
+  LABELITEM objectid  		# data field used for labeling
+  METADATA 
+     "LAYER_ENCODING" "UTF-8"	# use unicode character set
+     "DESCRIPTION" "nha data"
+     "RESULT_FIELDS" "objectid, name, floor, nha, shape_area"  
+     "RESULT_HEADERS" "objectid, name, floor, nha, shape_area"
+     "ows_title"      "nha data"
+  END 			# End of metadata description
+ CLASS   			#define class for layer display. Here we have only one class
+   Name 'House'
+   EXPRESSION ([nha] = 0)
+   STYLE
+	COLOR 236 190 164		# fill color in format of Red Green Blue
+	OUTLINECOLOR 204 204 204	# outline color
+	WIDTH 0.3
+   END
+   LABEL			# label definition
+      POSITION Auto
+      COLOR 0 0 0 
+	  OUTLINECOLOR 220 255 255
+	  OUTLINEWIDTH 1
+	  MINDISTANCE 10
+	  MAXSCALEDENOM 1000  	#do not display label at scale smaller than 1:1000
+      TYPE truetype
+      ENCODING "UTF-8"
+      FONT Arial			# font set used for labeling
+      SIZE 6
+    END #Label  
+  END  # Class
+  CLASS   			#define class for layer display. Here we have only one class
+   Name 'Rent houses'
+    EXPRESSION ([nha] = 1)
+   STYLE
+	COLOR 76 230 0	# fill color in format of Red Green Blue
+	OUTLINECOLOR 110 110 110 # outline color
+	WIDTH 0.8
+   END
+   LABEL			# label definition
+      POSITION Auto
+      COLOR 0 0 0 
+	  OUTLINECOLOR 220 255 255
+	  OUTLINEWIDTH 1
+	  MINDISTANCE 10
+	  MAXSCALEDENOM 1000  	#do not display label at scale smaller than 1:1000
+      TYPE truetype
+      ENCODING "UTF-8"
+      FONT Arial			# font set used for labeling
+      SIZE 6
+    END #Label  
+  END  # Class
+END  # Layer 
+
+#Giao thông
+LAYER
+  NAME "giaothong"   		# name of layer
+  TYPE polygon			# type of features
+  CONNECTIONTYPE postgis   	# connection parameters
+  CONNECTION "user=postgres password=123456 host=localhost dbname=nhatro"
+   DATA "the_geom from (SELECT gid, code, namee, the_geom from public.giaothong) as giaothong_data using unique gid"
+  TRANSPARENCY 95
+  TEMPLATE void
+  LABELITEM namee  		# data field used for labeling
+  METADATA 
+     "LAYER_ENCODING" "UTF-8"	# use unicode character set
+     "DESCRIPTION" "giaothong data"
+     "RESULT_FIELDS" "namee"  
+     "RESULT_HEADERS" "namee"
+     "ows_title"      "giaothong data"
+  END 			# End of metadata description
+ CLASS   			#define class for layer display. Here we have only one class
+   Name 'giaothong'
+   STYLE
+	COLOR  245 202 122	# fill color in format of Red Green Blue
+	OUTLINECOLOR  245 202 122	# outline color
+	WIDTH 0.3
+   END
+   LABEL			# label definition
+      POSITION Auto
+      COLOR 60 60 60 
+	#  OUTLINECOLOR 255 0 0 
+	  OUTLINEWIDTH 1
+	  MINDISTANCE 10
+	  MAXSCALEDENOM 100000  	#do not display label at scale smaller than 1:1000
+      TYPE truetype
+      ENCODING "UTF-8"
+      FONT Arial			# font set used for labeling
+      SIZE 6
+      ANGLE FOLLOW
+     # PLACEMENT always straight
+    END #Label  
+  END  # Class
+END  # Layer
+
+LAYER #thủy hệ
+  NAME "Thủy hệ"   		# name of layer
+  TYPE polygon			# type of features
+  CONNECTIONTYPE postgis   	# connection parameters
+  CONNECTION "user=postgres password=123456 host=localhost dbname=nhatro"
+   DATA "the_geom from (SELECT gid, code, namee, the_geom from public.thuyhe) as thuyhedata using unique gid"
+  TRANSPARENCY 95
+  TEMPLATE void
+  LABELITEM gid  		# data field used for labeling
+  METADATA 
+     "LAYER_ENCODING" "UTF-8"	# use unicode character set
+     "DESCRIPTION" "Thuy he data"
+     "RESULT_FIELDS" "namee"  
+     "RESULT_HEADERS" "namee"
+     "ows_title"      "Thuy he data"
+  END 			# End of metadata description
+ CLASS   			#define class for layer display. Here we have only one class
+   Name 'Thủy hệ'
+   STYLE
+	COLOR 190 210 255		# fill color in format of Red Green Blue
+	OUTLINECOLOR 190 210 255	# outline color
+	WIDTH 0.3
+   END
+  END  # Class
+END  # Layer
+
+
+
+END  # Map

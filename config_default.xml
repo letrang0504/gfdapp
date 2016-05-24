@@ -1,0 +1,138 @@
+<pmapper>
+    <ini>
+        <pmapper>
+            <pmTitle>Tìm nhà trọ</pmTitle>
+            <debugLevel>3</debugLevel>
+            <plugins>export</plugins>
+            <plugins>scalebar</plugins>
+			<plugins>pmauth</plugins>
+            <plugins>transparency</plugins>
+			<plugins>Cho_Thue</plugins>
+			<plugins>Tim_nha</plugins>
+			<plugins>Kiem_duyet</plugins>
+			<plugins>Phan_hoi</plugins>
+			<plugins>dangky</plugins>
+            <plugins>giaodich</plugins>
+            <plugins>Update</plugins>
+            <plugins>thongtin</plugins>
+            <plugins>tin_phan_hoi</plugins>
+            <plugins>Rate</plugins>
+        </pmapper>
+        <config>
+            <pm_config_location>default</pm_config_location>
+            <pm_javascript_location>javascript</pm_javascript_location>
+            <pm_print_configfile>common/print.xml</pm_print_configfile>
+            <pm_search_configfile>inline</pm_search_configfile>
+        </config>
+        <map>
+            <mapFile>nhatro.map</mapFile>
+            <tplMapFile>common/template.map</tplMapFile>
+            <categories>
+                <category name="Nền">
+                    <group>nen</group>
+                </category>
+                <category name="Nhà">
+                    <group>nhatro</group>
+                </category>
+                 <category name="Đường">
+                    <group>giaothong</group>
+                </category>     
+                 <category name="Thủy hệ">
+                    <group>Thủy hệ</group>
+                </category> 
+       
+            </categories>
+            <allGroups>
+                <group>nen</group>
+                <group>nhatro</group>
+                <group>giaothong</group>
+                <group>Thủy hệ</group>
+               
+            </allGroups>
+            <defGroups>
+                <group>nen</group>
+                <group>nhatro</group>
+                <group>giaothong</group>
+                <group>Thủy hệ</group>
+             
+            </defGroups>
+            <layerAutoRefresh>1</layerAutoRefresh>
+            <imgFormat>png8</imgFormat>
+            <altImgFormat>jpeg</altImgFormat>
+            <!--
+            <altImgFormatLayers>
+                <layer>jpl_wms_global_mosaic</layer>
+                <layer>dem</layer>
+            </altImgFormatLayers>
+            -->
+            <sliderMax>max</sliderMax>
+            <sliderMin>100000</sliderMin>
+        </map>
+        <query>
+            <limitResult>300</limitResult>
+            <highlightColor>0 255 255</highlightColor>
+            <highlightSelected>1</highlightSelected>
+            <autoZoom>nquery</autoZoom>
+            <autoZoom>search</autoZoom>
+            <zoomAll>search</zoomAll>
+            <zoomAll>nquery</zoomAll>
+            <infoWin>dynwin</infoWin>
+            <alignQueryResults>1</alignQueryResults>
+            <pointBuffer>10000</pointBuffer>
+            <shapeQueryBuffer>0.02</shapeQueryBuffer>
+        </query>
+        <ui>
+            <tocStyle>tree</tocStyle>
+            <legendStyle>attached</legendStyle>
+            <useCategories>1</useCategories>
+            <catWithCheckbox>1</catWithCheckbox>
+            <scaleLayers>1</scaleLayers>
+            <icoW>18</icoW>
+            <icoH>14</icoH> 
+			<legendKeyimageRewrite>0</legendKeyimageRewrite>
+        </ui>
+        <locale>
+            <defaultLanguage>en</defaultLanguage>
+            <defaultCharset>UTF-8</defaultCharset>
+            <map2unicode>1</map2unicode>
+        </locale>
+        <print>
+            <printImgFormat>png</printImgFormat>
+            <printAltImgFormat>jpeg</printAltImgFormat>
+            <pdfres>2</pdfres>
+        </print>
+        <download>
+            <dpiLevels>150</dpiLevels>
+            <dpiLevels>200</dpiLevels>
+            <dpiLevels>300</dpiLevels>
+        </download>
+        <php>
+            <pearDbClass>MDB2</pearDbClass>
+            <defaultTimeZone>Europe/Vienna</defaultTimeZone>
+        </php>
+        <pluginsConfig>
+            <export>
+                <formats>XLS</formats>
+                <formats>CSV</formats>
+                <formats>PDF</formats>
+            </export>
+        </pluginsConfig>
+    </ini>
+     <searchlist version="1.0">
+        <dataroot>$</dataroot>
+		<searchitem name="search house" description="Search for house">
+            <layer type="postgis" name="nhatro">
+                <field type="n" name="objectid" description="Mã nhà"  wildcard="0">
+            </field>
+            </layer>
+        </searchitem>
+		<searchitem name="search" description="Search for rent">
+            <layer type="postgis" name="nhatro">
+                <field type="n" name="dt_cho_thue" description="Diện tích"  wildcard="0">
+                </field>
+				<field type="n" name="gia" description="Giá"  wildcard="0" />
+            </layer>
+        </searchitem>
+    </searchlist>
+ 
+</pmapper>
